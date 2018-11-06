@@ -41,3 +41,6 @@ target
 .idea
 *.iml
 
+/build/
+.settings/*
+.project
