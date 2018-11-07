@@ -3,7 +3,7 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>Web-Application</display-name>
+	<display-name>Assignment Nine Web-Application</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -14,13 +14,13 @@
 	</welcome-file-list>
 
 	<servlet>
-		<servlet-name>MyHttpServletDemo</servlet-name>
-		<servlet-class>edu.advancedjava.servlet.MyServletDemo</servlet-class>
+		<servlet-name>ServletStockService</servlet-name>
+		<servlet-class>edu.advancedjava.servlet.StockSearchServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>MyHttpServletDemo</servlet-name>
-		<url-pattern>/welcome</url-pattern>
+		<servlet-name>ServletStockService</servlet-name>
+		<url-pattern>/servlets/ServletStockService/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
