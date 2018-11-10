@@ -19,7 +19,7 @@ import edu.advancedjava.utilities.DatabaseInitializationException;
 public class DatabaseUtils {
 
 	// Initialization db script
-	public static final String initializationFile = "./src/main/resources/stocks_db_initialization.sql";
+	public static final String initializationFile = "./src/main/java/resources/stocks_db_initialization.sql";
 
 	// JDBC driver name and database URL
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";

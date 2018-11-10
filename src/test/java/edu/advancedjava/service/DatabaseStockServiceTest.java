@@ -1,7 +1,11 @@
 package edu.advancedjava.service;
 
 import edu.advancedjava.model.StockQuote;
+import edu.advancedjava.utilities.DatabaseInitializationException;
+import edu.advancedjava.utilities.DatabaseUtils;
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -28,6 +32,17 @@ public class DatabaseStockServiceTest {
 	private List<StockQuote> listPrices = null;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
+    @BeforeClass
+    static public void firstSetup() {
+        // Initialize database by running a script that will create a table and insert records
+        try {
+            DatabaseUtils.initializeDatabase(DatabaseUtils.initializationFile);
+        } catch (DatabaseInitializationException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+	
 	@Before
 	public void setup() {
 		stockServiceImplementation = new DatabaseStockService();
