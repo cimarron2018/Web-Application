@@ -6,8 +6,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.*;
-import javax.servlet.http.*;
-
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import edu.advancedjava.model.StockQuote;
 import edu.advancedjava.service.StockService;
 import edu.advancedjava.service.StockServiceException;
