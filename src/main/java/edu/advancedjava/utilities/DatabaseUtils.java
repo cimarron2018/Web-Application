@@ -26,8 +26,8 @@ public class DatabaseUtils {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/stocks?autoReconnect=true&useSSL=false";
 
 	// Database credentials
-	private static final String USER = "aperez";
-	private static final String PASS = "locura";
+	private static final String USER = "monty";
+	private static final String PASS = "some_pass";
 
 	/**
 	 * Configure a connection to a database.
