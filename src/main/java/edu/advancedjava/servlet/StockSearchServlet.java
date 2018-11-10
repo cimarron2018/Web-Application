@@ -11,11 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import edu.advancedjava.model.StockQuote;
-import edu.advancedjava.service.DatabaseStockService;
 import edu.advancedjava.service.StockService;
 import edu.advancedjava.service.StockServiceException;
-import edu.advancedjava.service.StockServiceFactory;
-import edu.advancedjava.service.StockServiceFactory.ServiceType;
 import edu.advancedjava.service.YahooStockService;
 
 import java.text.ParseException;
@@ -27,18 +24,15 @@ public class StockSearchServlet extends HttpServlet {
 	private static final String SYMBOL_PARAMETER_KEY = "symbol";
     private static final String FROMDATE_PARAMETER_KEY = "fromDate";
     private static final String TODATE_PARAMETER_KEY = "toDate";
-    private static final String STOCKSERVICE_SOURCE = "source";
 
     /**
-     * Retrieve stock quotes using the StockService from StockServiceFactory
-     *  
+     * Retrieve stock quotes using the YahooStockService 
      */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String symbol = request.getParameter(SYMBOL_PARAMETER_KEY);
         String fromDateString = request.getParameter(FROMDATE_PARAMETER_KEY);
         String toDateString = request.getParameter(TODATE_PARAMETER_KEY);
-        String stockServiceSource = request.getParameter(STOCKSERVICE_SOURCE);
 
         StockService stockServiceImplementation = null;
         Calendar fromDate = Calendar.getInstance();
@@ -46,11 +40,7 @@ public class StockSearchServlet extends HttpServlet {
         List<StockQuote> listPrices = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         
-        ServiceType serviceType = ServiceType.Yahoo;
-        if (stockServiceSource.equalsIgnoreCase("DB")) {
-        	serviceType = ServiceType.DB;
-        }
-        stockServiceImplementation = StockServiceFactory.getSockService(serviceType);
+        stockServiceImplementation = new YahooStockService();
 
         try {
             fromDate.setTime(dateFormat.parse(fromDateString));
