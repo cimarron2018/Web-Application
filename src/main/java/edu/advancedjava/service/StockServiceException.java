@@ -3,7 +3,7 @@ package edu.advancedjava.service;
 /**
  * Used to signal a problem with the StockService.
  */
-@SuppressWarnings("serial")
+
 public class StockServiceException extends Exception {
 
     /**
