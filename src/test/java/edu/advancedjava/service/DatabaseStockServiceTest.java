@@ -1,26 +1,23 @@
 package edu.advancedjava.service;
 
-import edu.advancedjava.model.StockQuote;
-import edu.advancedjava.utilities.DatabaseInitializationException;
-import edu.advancedjava.utilities.DatabaseUtils;
+import static org.junit.Assert.assertTrue;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
+import edu.advancedjava.model.StockQuote;
+import edu.advancedjava.utilities.DatabaseInitializationException;
+import edu.advancedjava.utilities.DatabaseUtils;
 
 /**
- * JUNIT test for DatabaseStockService class
  * 
- * @author aperez
+ * JUNIT test for DatabaseStockService class
  *
  */
 public class DatabaseStockServiceTest {
@@ -29,77 +26,86 @@ public class DatabaseStockServiceTest {
 	private Calendar fromDate = Calendar.getInstance();
 	private Calendar toDate = Calendar.getInstance();
 	private String symbol = "AAPL";
-	private List<StockQuote> listPrices = null;
+	private List<StockQuote> testStockQuotesList = null;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-    @BeforeClass
-    static public void firstSetup() {
-        // Initialize database by running a script that will create a table and insert records
-        try {
-            DatabaseUtils.initializeDatabase(DatabaseUtils.initializationFile);
-        } catch (DatabaseInitializationException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-	
+	/**
+	 * Initial setup. Run script to initialize database
+	 */
+	@BeforeClass
+	static public void firstSetup() {
+		// Initialize database by running a script that will create a table and populate
+		// it with records
+		try {
+			DatabaseUtils.initializeDatabase(DatabaseUtils.initializationFile);
+		} catch (DatabaseInitializationException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	/**
+	 * 
+	 * Create an instance of StockService an calls the getQuote method. The Stock
+	 * Quotes list returned is used for testing.
+	 * 
+	 */
 	@Before
 	public void setup() {
 		stockServiceImplementation = new DatabaseStockService();
 
 		try {
-			fromDate.setTime(dateFormat.parse("1/2/2000"));
+			fromDate.setTime(dateFormat.parse("1/2/2018"));
 		} catch (ParseException e1) {
 			System.out.println("Invalid date format. Correct format is mm/dd/yyyy");
 		}
 		try {
-			toDate.setTime(dateFormat.parse("1/8/2000"));
+			toDate.setTime(dateFormat.parse("1/8/2018"));
 		} catch (ParseException e) {
 			System.out.println("Invalid date format. Correct format is mm/dd/yyyy");
 		}
 
-
 		try {
-            listPrices = stockServiceImplementation.getQuote(symbol, fromDate, toDate);
-        } catch (StockServiceException e) {
-            e.printStackTrace();
-        }
+			testStockQuotesList = stockServiceImplementation.getQuote(symbol, fromDate, toDate, IntervalEnum.DAILY);
+		} catch (StockServiceException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
 	/**
-	 * Test the getQuote method returns a BigDecimal
+	 * Test to verify that the getQuote method is returning a List
 	 */
 	@Test
-	public void testGetQuote() {
-        StockQuote testQuote = null;
-        try {
-            testQuote = stockServiceImplementation.getQuote(symbol);
-        } catch (StockServiceException e) {
-            e.printStackTrace();
-        }
-        assertTrue(testQuote.getStockPrice() instanceof BigDecimal);
+	public void testStockQuoteListInstance() {
+		assertTrue("StockService.getQuote failed to return a list", testStockQuotesList instanceof List<?>);
 	}
 
-	@Test
-	public void testGetQuoteDate() {
-		assertTrue(listPrices instanceof List<?>);
-	}
-
+	/**
+	 * Test to verify the first date in the stock quotes list is correct
+	 */
 	@Test
 	public void testGetQuoteDateFromDate() {
-	    fromDate.add(Calendar.DATE, -1);
-		assertTrue(listPrices.get(1).getDateRecorded().after(fromDate.getTime()));
+		assertTrue("StockQuote returned the wrong 'From' date",
+				testStockQuotesList.get(0).getDateRecorded().equals(fromDate.getTime()));
 	}
 
+	/**
+	 * Test to verify last date in the stock quotes list is correct
+	 */
 	@Test
 	public void testGetQuoteDateToDate() {
-		assertTrue(listPrices.get(listPrices.size()-1).getDateRecorded().equals(toDate.getTime()));
+		assertTrue("StockQuote returned the wrong 'Until' date",
+				testStockQuotesList.get(testStockQuotesList.size() - 1).getDateRecorded().equals(toDate.getTime()));
 	}
 
+	/**
+	 * Test to verify the stock quote is returning the correct symbol
+	 */
 	@Test
 	public void testGetQuoteDateStockSymbol() {
-		assertTrue(listPrices.get(0).getStockSymbol().equalsIgnoreCase(symbol));
+		assertTrue("StockQuote returned wrong symbol",
+				testStockQuotesList.get(0).getStockSymbol().equalsIgnoreCase(symbol));
 	}
 
 }

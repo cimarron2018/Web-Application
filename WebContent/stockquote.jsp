@@ -22,6 +22,10 @@
 		Source: <input type="radio" name="source" value="yahoo" checked="checked"> Yahoo Financial Services
 		<input type="radio" name="source" value="db"> Database
 		<br>
+		Interval: <input type="radio" name="interval" value="daily" checked="checked"> Daily
+		<input type="radio" name="interval" value="weekly"> Weekly
+		<input type="radio" name="interval" value="monthly"> Monthly
+		<br>
 		<input type="SUBMIT" value="OK">
 		<input type="HIDDEN" name="submit" value="true">
 	</form>

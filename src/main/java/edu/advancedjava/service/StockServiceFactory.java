@@ -1,19 +1,29 @@
 package edu.advancedjava.service;
 
 /**
+ * 
  * A StockService factory class that returns a concrete implementation of the
  * interface
  * 
- *
  */
-
 
 public class StockServiceFactory {
 
+	/**
+	 * 
+	 * Available sources of stock quotes
+	 *
+	 */
 	public static enum ServiceType {
-		DB, Yahoo
+	/**
+	 * Database source
+	 */
+	DB,
+	/**
+	 * Yahoo Finance API source
+	 */
+	Yahoo
 	}
-
 
 	/**
 	 * Constructor is private
@@ -27,7 +37,7 @@ public class StockServiceFactory {
 	 * 
 	 * @return a StockService implementation
 	 */
-	public static StockService getSockService(ServiceType type) {
+	public static StockService getStockService(ServiceType type) {
 
 		StockService implementationStockService = null;
 
@@ -39,7 +49,7 @@ public class StockServiceFactory {
 			implementationStockService = new YahooStockService();
 			break;
 		}
-		
+
 		return implementationStockService;
 
 	}
