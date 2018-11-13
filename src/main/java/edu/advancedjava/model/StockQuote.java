@@ -3,6 +3,8 @@ package edu.advancedjava.model;
 import org.apache.http.annotation.Immutable;
 
 import javax.validation.constraints.NotNull;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -12,8 +14,9 @@ import java.util.Date;
  * This a simple container class.
  */
 @Immutable
-public final class StockQuote {
+public final class StockQuote implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private final String stockSymbol;
 	private final BigDecimal stockPrice;
 	private final Date dateRecorded;
